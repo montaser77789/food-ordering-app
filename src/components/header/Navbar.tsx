@@ -9,6 +9,8 @@ import LanguageSwitcher from "./language-switcher";
 import AuthButtons from "./AuthButtons";
 import { Translations } from "@/types/translations";
 import { Session } from "next-auth";
+import { useClientSession } from "@/hooks/useClientSession";
+import { UserRole } from "@prisma/client";
 
 const Navbar = ({
   translations,
@@ -17,7 +19,11 @@ const Navbar = ({
   translations: Translations;
   initialSession: Session | null;
 }) => {
+  const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState(false);
+  const { locale } = useParams();
+  const session = useClientSession(initialSession);
+  const isAdmin = session.data?.user.role === UserRole.ADMIN;
   const links = [
     {
       id: crypto.randomUUID(),
@@ -36,9 +42,7 @@ const Navbar = ({
     },
   ];
 
-  const { locale } = useParams();
 
-  const Pathname = usePathname();
   return (
     <nav className="order-last lg:order-none">
       <Button
@@ -65,9 +69,9 @@ const Navbar = ({
         {links.map((link) => (
           <li key={link.id}>
             <Link
-            onClick={() => setOpenMenu(false)}
+              onClick={() => setOpenMenu(false)}
               className={`font-semibold  hover:text-primary duration-200 transition-colors ${
-                Pathname === `/${locale}/${link.href}`
+                pathname === `/${locale}/${link.href}`
                   ? "text-primary"
                   : "text-accent"
               }`}
@@ -77,6 +81,31 @@ const Navbar = ({
             </Link>
           </li>
         ))}
+        {session.data?.user && (
+          <li>
+            <Link
+              href={
+                isAdmin
+                  ? `/${locale}/${Routes.ADMIN}`
+                  : `/${locale}/${Routes.PROFILE}`
+              }
+              onClick={() => setOpenMenu(false)}
+              className={`${
+                pathname.startsWith(
+                  isAdmin
+                    ? `/${locale}/${Routes.ADMIN}`
+                    : `/${locale}/${Routes.PROFILE}`
+                )
+                  ? "text-primary"
+                  : "text-accent"
+              } hover:text-primary duration-200 transition-colors font-semibold`}
+            >
+              {isAdmin
+                ? translations.navbar.admin
+                : translations.navbar.profile}
+            </Link>
+          </li>
+        )}
         <li className="lg:hidden flex flex-col gap-4">
           <div onClick={() => setOpenMenu(false)}>
             <AuthButtons

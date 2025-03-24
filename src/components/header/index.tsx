@@ -6,11 +6,13 @@ import getTrans from "@/lib/translation";
 import LanguageSwitcher from "./language-switcher";
 import AuthButtons from "./AuthButtons";
 import { getServerSession } from "next-auth";
+import { authOption } from "@/server/auth";
+
 
 const Header = async () => {
   const locale = await getCurrentLocale();
   const translations = await getTrans(locale);
-  const initialSession = await getServerSession()
+  const initialSession = await getServerSession(authOption);
   return (
     <header className="py-4 md:py-6">
       <div className="container flex items-center justify-between gap-6 lg:gap-10">   
