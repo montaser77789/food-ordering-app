@@ -19,6 +19,7 @@ declare module "next-auth/jwt" {
     name: string;
     email: string;
     role: UserRole;
+    
   }
 }
 
@@ -32,8 +33,8 @@ export const authOption: NextAuthOptions = {
         session.user.email = token.email;
         session.user.role = token.role;
         session.user.image = token.image as string;
-        session.user.Country = token.Country as string;
-        session.user.City = token.City as string;
+        session.user.country = token.country as string;
+        session.user.city = token.city as string;
         session.user.postalCode = token.postalCode as string;
         session.user.streetAddress = token.streetAddress as string;
         session.user.phone = token.phone as string;
@@ -46,7 +47,8 @@ export const authOption: NextAuthOptions = {
           name: token.name,
           email: token.email,
           role: token.role,
-          image: token.image,
+          image: token.image
+         
         },
       };
     },
@@ -66,8 +68,8 @@ export const authOption: NextAuthOptions = {
         email: dbUser.email,
         role : dbUser.role ,
         image: dbUser.image,
-        city: dbUser.City,
-        country: dbUser.Country,
+        city: dbUser.city,
+        country: dbUser.country,
         phone: dbUser.phone,
         postalCode: dbUser.postalCode,
         streetAddress: dbUser.streetAddress,

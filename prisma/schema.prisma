@@ -43,8 +43,8 @@ model User {
   phone         String?
   streetAddress String?
   postalCode    String?
-  City          String?
-  Country       String?
+  city          String?
+  country       String?
   role          UserRole @default(USER)
 
   orders    OrderProduct[]
@@ -97,7 +97,7 @@ model Order {
   phone         String?
   streetAddress String?
   postalCode    String?
-  City          String?
+  city          String?
   products      OrderProduct[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt

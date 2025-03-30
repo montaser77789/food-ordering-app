@@ -8,8 +8,8 @@ CREATE TABLE "User" (
     "phone" TEXT,
     "streetAddress" TEXT,
     "postalCode" TEXT,
-    "City" TEXT,
-    "Country" TEXT,
+    "city" TEXT,
+    "country" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -26,7 +26,7 @@ CREATE TABLE "Order" (
     "phone" TEXT,
     "streetAddress" TEXT,
     "postalCode" TEXT,
-    "City" TEXT,
+    "city" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
