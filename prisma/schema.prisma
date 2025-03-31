@@ -35,8 +35,8 @@ model Session {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  email         String   @unique
+  id            String         @id @default(uuid())
+  email         String         @unique
   password      String
   name          String
   image         String
@@ -45,13 +45,12 @@ model User {
   postalCode    String?
   city          String?
   country       String?
-  role          UserRole @default(USER)
-
-  orders    OrderProduct[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  Account   Account[]
-  Session   Session[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  role          UserRole       @default(USER)
+  Account       Account[]
+  orders        OrderProduct[]
+  Session       Session[]
 }
 
 model VerificationRequest {
@@ -70,21 +69,21 @@ model product {
   name        String
   description String
   image       String
-  order       Int
+  order       Int            @default(autoincrement())
   basePrise   Float
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
+  catagoryId  String?
+  extras      Extras[]
   orders      OrderProduct[]
-
-  sizes      Size[]
-  extras     Extras[]
-  catagory   catagory? @relation(fields: [catagoryId], references: [id])
-  catagoryId String?
+  sizes       Size[]
+  catagory    catagory?      @relation(fields: [catagoryId], references: [id])
 }
 
 model catagory {
   id       String    @id @default(uuid())
   name     String
+  order    Int       @default(autoincrement())
   products product[]
 }
 
@@ -98,20 +97,20 @@ model Order {
   streetAddress String?
   postalCode    String?
   city          String?
-  products      OrderProduct[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  products      OrderProduct[]
 }
 
 model OrderProduct {
   id        String  @id @default(uuid())
   quntity   Int
-  Order     Order   @relation(fields: [orderId], references: [id])
   orderId   String
-  User      User?   @relation(fields: [userId], references: [id])
   userId    String?
-  product   product @relation(fields: [productId], references: [id])
   productId String
+  Order     Order   @relation(fields: [orderId], references: [id])
+  product   product @relation(fields: [productId], references: [id])
+  User      User?   @relation(fields: [userId], references: [id])
 }
 
 model Size {
@@ -123,12 +122,11 @@ model Size {
 }
 
 model Extras {
-  id    String        @id @default(uuid())
-  name  productExtras
-  price Float
-
-  product   product? @relation(fields: [productId], references: [id])
+  id        String        @id @default(uuid())
+  name      productExtras
+  price     Float
   productId String?
+  product   product?      @relation(fields: [productId], references: [id])
 }
 
 enum productSize {
